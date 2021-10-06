@@ -9,6 +9,7 @@ import UIKit
 
 class SelectedCategory_Controller: UIViewController {
 
+    //MARK: initializations
     private var categoryMealLibrary: CategorizedMealLibrary?
     private var categoryMeals: [CategorizedMeal] = []
     
@@ -20,7 +21,7 @@ class SelectedCategory_Controller: UIViewController {
                     try categoryMealLibrary = await fetchMeals(withCategoryID: categoryName)
                     guard let meals = categoryMealLibrary?.categoriezedMeals else {return}
                     self.categoryMeals = meals.sorted()
-                    print("\(categoryName) selected with \(self.categoryMeals.count) meals")
+                    self._view.tableView.reloadData()
                     
                 } catch {
                     print("error: \(error)")
@@ -30,12 +31,15 @@ class SelectedCategory_Controller: UIViewController {
     }
     
     var _view = SelectedCategory_View()
+    var categoryCellID = "categorizedMealCellIdentifier"
     
     override func viewDidLoad() {
         super.viewDidLoad()
         _view = SelectedCategory_View(frame: self.view.frame)
         self.view = _view
-        
+        self._view.tableView.delegate = self
+        self._view.tableView.dataSource = self
+        self._view.tableView.register(SelectedCategory_TableViewCell.self, forCellReuseIdentifier: categoryCellID)
     }
     
 
@@ -52,4 +56,30 @@ class SelectedCategory_Controller: UIViewController {
         return try JSONDecoder().decode(CategorizedMealLibrary.self, from: data)
     }
 
+}
+
+
+//MARK: table view stubs
+extension SelectedCategory_Controller: UITableViewDelegate, UITableViewDataSource {
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return self.categoryMeals.count
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        
+        let cell = _view.tableView.dequeueReusableCell(withIdentifier: categoryCellID, for: indexPath) as! SelectedCategory_TableViewCell
+        cell.mealTitle.text = categoryMeals[indexPath.row].name
+        return cell
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 44
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let mealDetailVC = MealDetail_Controller()
+        mealDetailVC.selectedMealID = categoryMeals[indexPath.row].id
+        self.navigationController?.pushViewController(mealDetailVC, animated: true)
+    }
 }

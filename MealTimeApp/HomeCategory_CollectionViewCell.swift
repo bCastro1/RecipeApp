@@ -24,7 +24,7 @@ class HomeCategory_CollectionViewCell: UICollectionViewCell {
     //MARK: UI component inits
     let categoryImage: UIImageView = {
         var imageView = UIImageView()
-        imageView.contentMode = .scaleAspectFit
+        imageView.contentMode = .scaleAspectFill
         imageView.translatesAutoresizingMaskIntoConstraints = false
         return imageView
     }()

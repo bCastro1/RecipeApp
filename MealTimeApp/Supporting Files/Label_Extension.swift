@@ -15,6 +15,7 @@ extension UILabel {
         label.font = .standard()
         label.text = withText
         label.textColor = .dynamicText()
+        label.sizeToFit()
         label.adjustsFontSizeToFitWidth = true
         label.layer.masksToBounds = true
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -25,6 +26,7 @@ extension UILabel {
         let label = UILabel()
         label.font = .titleFont()
         label.text = withText
+        label.sizeToFit()
         label.textColor = .dynamicText()
         label.adjustsFontSizeToFitWidth = true
         label.layer.masksToBounds = true

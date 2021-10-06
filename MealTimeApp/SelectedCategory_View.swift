@@ -23,12 +23,20 @@ class SelectedCategory_View: UIView {
     }
     
     
-    
+    var tableView: UITableView = {
+        var tableView = UITableView(frame: .zero, style: .plain)
+        tableView.translatesAutoresizingMaskIntoConstraints = false
+        return tableView
+    }()
 }
 
 extension SelectedCategory_View {
     //MARK: setting view constraints
     func setupViewConstraints(){
-        
+        self.addSubview(tableView)
+        tableView.leftAnchor.constraint(equalTo: self.leftAnchor).isActive = true
+        tableView.rightAnchor.constraint(equalTo: self.rightAnchor).isActive = true
+        tableView.topAnchor.constraint(equalTo: self.safeAreaLayoutGuide.topAnchor).isActive = true
+        tableView.bottomAnchor.constraint(equalTo: self.bottomAnchor).isActive = true
     }
 }

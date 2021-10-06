@@ -7,16 +7,16 @@
 
 import Foundation
 
-struct MealLibrary: Decodable {
+struct MealContainer: Decodable {
     private enum CodingKeys: String, CodingKey {
         case meals = "meals"
     }
     
-    var meals: [Meal]
+    var meal: [Meal]
     
     init(from decoder: Decoder) throws {
         let values = try decoder.container(keyedBy: CodingKeys.self)
-        meals = try values.decode([Meal].self, forKey: .meals)
+        meal = try values.decode([Meal].self, forKey: .meals)
     }
 }
 
@@ -142,63 +142,63 @@ struct Meal: Decodable, Comparable {
     //MARK: init from decoder
     init(from decoder: Decoder) throws {
         let values = try decoder.container(keyedBy: CodingKeys.self)
-        
         id = try values.decode(String.self, forKey: .id)
         name = try values.decode(String.self, forKey: .name)
-        drinkAlternate = try values.decode(String.self, forKey: .drinkAlternate)
-        category = try values.decode(String.self, forKey: .category)
-        area = try values.decode(String.self, forKey: .area)
-        instructions = try values.decode(String.self, forKey: .instructions)
+        drinkAlternate = try values.decode(String?.self, forKey: .drinkAlternate) ?? nil
+        category = try values.decode(String?.self, forKey: .category) ?? nil
+        area = try values.decode(String?.self, forKey: .area) ?? nil
+        instructions = try values.decode(String?.self, forKey: .instructions) ?? nil
         image_URL = try values.decode(String.self, forKey: .image_URL)
-        tags = try values.decode(String.self, forKey: .tags)
-        youtube = try values.decode(String.self, forKey: .youtube)
+        tags = try values.decode(String?.self, forKey: .tags) ?? nil
+        youtube = try values.decode(String?.self, forKey: .youtube) ?? nil
         
-        ingredient1 = try values.decode(String.self, forKey: .ingredient1)
-        ingredient2 = try values.decode(String.self, forKey: .ingredient2)
-        ingredient3 = try values.decode(String.self, forKey: .ingredient3)
-        ingredient4 = try values.decode(String.self, forKey: .ingredient4)
-        ingredient5 = try values.decode(String.self, forKey: .ingredient5)
-        ingredient6 = try values.decode(String.self, forKey: .ingredient6)
-        ingredient7 = try values.decode(String.self, forKey: .ingredient7)
-        ingredient8 = try values.decode(String.self, forKey: .ingredient8)
-        ingredient9 = try values.decode(String.self, forKey: .ingredient9)
-        ingredient10 = try values.decode(String.self, forKey: .ingredient10)
-        ingredient11 = try values.decode(String.self, forKey: .ingredient11)
-        ingredient12 = try values.decode(String.self, forKey: .ingredient12)
-        ingredient13 = try values.decode(String.self, forKey: .ingredient13)
-        ingredient14 = try values.decode(String.self, forKey: .ingredient14)
-        ingredient15 = try values.decode(String.self, forKey: .ingredient15)
-        ingredient16 = try values.decode(String.self, forKey: .ingredient16)
-        ingredient17 = try values.decode(String.self, forKey: .ingredient17)
-        ingredient18 = try values.decode(String.self, forKey: .ingredient18)
-        ingredient19 = try values.decode(String.self, forKey: .ingredient19)
-        ingredient20 = try values.decode(String.self, forKey: .ingredient20)
+        ingredient1 = try values.decode(String?.self, forKey: .ingredient1) ?? nil
+        ingredient2 = try values.decode(String?.self, forKey: .ingredient2) ?? nil
+        ingredient3 = try values.decode(String?.self, forKey: .ingredient3) ?? nil
+        ingredient4 = try values.decode(String?.self, forKey: .ingredient4) ?? nil
+        ingredient5 = try values.decode(String?.self, forKey: .ingredient5) ?? nil
+        ingredient6 = try values.decode(String?.self, forKey: .ingredient6) ?? nil
+        ingredient7 = try values.decode(String?.self, forKey: .ingredient7) ?? nil
+        ingredient8 = try values.decode(String?.self, forKey: .ingredient8) ?? nil
+        ingredient9 = try values.decode(String?.self, forKey: .ingredient9) ?? nil
+        ingredient10 = try values.decode(String?.self, forKey: .ingredient10) ?? nil
+        ingredient11 = try values.decode(String?.self, forKey: .ingredient11) ?? nil
+        ingredient12 = try values.decode(String?.self, forKey: .ingredient12) ?? nil
+        ingredient13 = try values.decode(String?.self, forKey: .ingredient13) ?? nil
+        ingredient14 = try values.decode(String?.self, forKey: .ingredient14) ?? nil
+        ingredient15 = try values.decode(String?.self, forKey: .ingredient15) ?? nil
+        ingredient16 = try values.decode(String?.self, forKey: .ingredient16) ?? nil
+        ingredient17 = try values.decode(String?.self, forKey: .ingredient17) ?? nil
+        ingredient18 = try values.decode(String?.self, forKey: .ingredient18) ?? nil
+        ingredient19 = try values.decode(String?.self, forKey: .ingredient19) ?? nil
+        ingredient20 = try values.decode(String?.self, forKey: .ingredient20) ?? nil
         
-        measurement1 = try values.decode(String.self, forKey: .measurement1)
-        measurement2 = try values.decode(String.self, forKey: .measurement2)
-        measurement3 = try values.decode(String.self, forKey: .measurement3)
-        measurement4 = try values.decode(String.self, forKey: .measurement4)
-        measurement5 = try values.decode(String.self, forKey: .measurement5)
-        measurement6 = try values.decode(String.self, forKey: .measurement6)
-        measurement7 = try values.decode(String.self, forKey: .measurement7)
-        measurement8 = try values.decode(String.self, forKey: .measurement8)
-        measurement9 = try values.decode(String.self, forKey: .measurement9)
-        measurement10 = try values.decode(String.self, forKey: .measurement10)
-        measurement11 = try values.decode(String.self, forKey: .measurement11)
-        measurement12 = try values.decode(String.self, forKey: .measurement12)
-        measurement13 = try values.decode(String.self, forKey: .measurement13)
-        measurement14 = try values.decode(String.self, forKey: .measurement14)
-        measurement15 = try values.decode(String.self, forKey: .measurement15)
-        measurement16 = try values.decode(String.self, forKey: .measurement16)
-        measurement17 = try values.decode(String.self, forKey: .measurement17)
-        measurement18 = try values.decode(String.self, forKey: .measurement18)
-        measurement19 = try values.decode(String.self, forKey: .measurement19)
-        measurement20 = try values.decode(String.self, forKey: .measurement20)
+        measurement1 = try values.decode(String?.self, forKey: .measurement1) ?? nil
+        measurement2 = try values.decode(String?.self, forKey: .measurement2) ?? nil
+        measurement3 = try values.decode(String?.self, forKey: .measurement3) ?? nil
+        measurement4 = try values.decode(String?.self, forKey: .measurement4) ?? nil
+        measurement5 = try values.decode(String?.self, forKey: .measurement5) ?? nil
+        measurement6 = try values.decode(String?.self, forKey: .measurement6) ?? nil
+        measurement7 = try values.decode(String?.self, forKey: .measurement7) ?? nil
+        measurement8 = try values.decode(String?.self, forKey: .measurement8) ?? nil
+        measurement9 = try values.decode(String?.self, forKey: .measurement9) ?? nil
+        measurement10 = try values.decode(String?.self, forKey: .measurement10) ?? nil
+        measurement11 = try values.decode(String?.self, forKey: .measurement11) ?? nil
+        measurement12 = try values.decode(String?.self, forKey: .measurement12) ?? nil
+        measurement13 = try values.decode(String?.self, forKey: .measurement13) ?? nil
+        measurement14 = try values.decode(String?.self, forKey: .measurement14) ?? nil
+        measurement15 = try values.decode(String?.self, forKey: .measurement15) ?? nil
+        measurement16 = try values.decode(String?.self, forKey: .measurement16) ?? nil
+        measurement17 = try values.decode(String?.self, forKey: .measurement17) ?? nil
+        measurement18 = try values.decode(String?.self, forKey: .measurement18) ?? nil
+        measurement19 = try values.decode(String?.self, forKey: .measurement19) ?? nil
+        measurement20 = try values.decode(String?.self, forKey: .measurement20) ?? nil
         
-        recipeSource = try values.decode(String.self, forKey: .recipeSource)
-        imageSource = try values.decode(String.self, forKey: .imageSource)
-        creativeCommonsConfirmed = try values.decode(String.self, forKey: .creativeCommonsConfirmed)
-        dateModified = try values.decode(String.self, forKey: .dateModified)
+        recipeSource = try values.decode(String?.self, forKey: .recipeSource) ?? nil
+        imageSource = try values.decode(String?.self, forKey: .imageSource) ?? nil
+        creativeCommonsConfirmed = try values.decode(String?.self, forKey: .creativeCommonsConfirmed) ?? nil
+        dateModified = try values.decode(String?.self, forKey: .dateModified) ?? nil
+        
     }
     
     static func < (lhs: Meal, rhs: Meal) -> Bool {
