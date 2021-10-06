@@ -24,10 +24,12 @@ struct CategoryLibrary: Decodable {
 
 //MARK: Category info
 
-struct Category: Decodable {
+struct Category: Decodable, Comparable {
 
-    var id: String? //Integer in string form
-    var name: String? //readable name of category
+    
+
+    var id: String //Integer in string form
+    var name: String //readable name of category
     var thumbnail_URL: String? //url to category picture
     var description: String? //description of category
     
@@ -40,7 +42,7 @@ struct Category: Decodable {
         case strCategoryDescription = "strCategoryDescription"
     }
     
-    init(id: String?, name: String?, thumbnail_URL: String?, description: String?){
+    init(id: String, name: String, thumbnail_URL: String?, description: String?){
         self.id = id
         self.name = name
         self.thumbnail_URL = thumbnail_URL
@@ -53,6 +55,16 @@ struct Category: Decodable {
         name = try values.decode(String.self, forKey: .strCategory)
         thumbnail_URL = try values.decode(String.self, forKey: .strCategoryThumb)
         description = try values.decode(String.self, forKey: .strCategoryDescription)
+    }
+    
+    //MARK: comparable stubs
+    //for sotring categories alphabetically
+    static func < (lhs: Category, rhs: Category) -> Bool {
+        return lhs.name < rhs.name
+    }
+    
+    static func == (lhs: Category, rhs: Category) -> Bool {
+        return lhs.name == rhs.name
     }
 }
 

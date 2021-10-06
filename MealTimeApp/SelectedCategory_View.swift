@@ -1,16 +1,20 @@
 //
-//  HomeView.swift
+//  SelectedCategory_View.swift
 //  MealTimeApp
 //
-//  Created by Brendan Castro on 10/4/21.
+//  Created by Brendan Castro on 10/5/21.
 //
 
 import UIKit
 
-class HomeView: UIView {
+class SelectedCategory_View: UIView {
+
     //MARK: Initializations
+    fileprivate let uiComponentPadding: CGFloat = 16
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
+        self.backgroundColor = .dynamicBackground()
         setupViewConstraints()
     }
     
@@ -20,13 +24,10 @@ class HomeView: UIView {
     
     
     
-    
-    //MARK: UI Components
 }
 
-extension HomeView {
-    
-    //MARK: Constraint sets
+extension SelectedCategory_View {
+    //MARK: setting view constraints
     func setupViewConstraints(){
         
     }
