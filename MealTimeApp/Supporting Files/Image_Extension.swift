@@ -71,4 +71,3 @@ extension UIImageView {
         }.resume()
     }
 }
-

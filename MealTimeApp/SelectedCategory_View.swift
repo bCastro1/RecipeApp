@@ -8,7 +8,7 @@
 import UIKit
 
 class SelectedCategory_View: UIView {
-
+    
     //MARK: Initializations
     fileprivate let uiComponentPadding: CGFloat = 16
     
@@ -22,21 +22,30 @@ class SelectedCategory_View: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    
-    var tableView: UITableView = {
-        var tableView = UITableView(frame: .zero, style: .plain)
-        tableView.translatesAutoresizingMaskIntoConstraints = false
-        return tableView
+    //MARK: UI components
+    lazy var collectionView: UICollectionView = {
+        let layout = UICollectionViewFlowLayout()
+        layout.sectionInset.top = 16
+        layout.minimumLineSpacing = 2
+        //layout.minimumInteritemSpacing = 8
+        let cellWidth = (UIScreen.main.bounds.width)-16
+        layout.itemSize = CGSize(width: cellWidth, height: 44)
+        var collectionView = UICollectionView(frame: self.frame, collectionViewLayout: layout)
+        collectionView.backgroundColor = .clear
+        collectionView.showsVerticalScrollIndicator = false
+        collectionView.translatesAutoresizingMaskIntoConstraints = false
+        return collectionView
     }()
 }
 
 extension SelectedCategory_View {
     //MARK: setting view constraints
     func setupViewConstraints(){
-        self.addSubview(tableView)
-        tableView.leftAnchor.constraint(equalTo: self.leftAnchor).isActive = true
-        tableView.rightAnchor.constraint(equalTo: self.rightAnchor).isActive = true
-        tableView.topAnchor.constraint(equalTo: self.safeAreaLayoutGuide.topAnchor).isActive = true
-        tableView.bottomAnchor.constraint(equalTo: self.bottomAnchor).isActive = true
+        self.addSubview(collectionView)
+        
+        collectionView.topAnchor.constraint(equalTo: self.safeAreaLayoutGuide.topAnchor).isActive = true
+        collectionView.leftAnchor.constraint(equalTo: self.safeAreaLayoutGuide.leftAnchor).isActive = true
+        collectionView.rightAnchor.constraint(equalTo: self.safeAreaLayoutGuide.rightAnchor).isActive = true
+        collectionView.bottomAnchor.constraint(equalTo: self.bottomAnchor).isActive = true
     }
 }

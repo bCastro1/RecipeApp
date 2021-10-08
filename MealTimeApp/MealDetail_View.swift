@@ -10,10 +10,12 @@ import UIKit
 class MealDetail_View: UIView {
     //MARK: initializations
     fileprivate let uiComponentPadding: CGFloat = 16
+    var mealDetailViewHeight: CGFloat = 150
     
     override init(frame: CGRect) {
         super.init(frame: frame)
         self.backgroundColor = .dynamicBackground()
+        setupScrollView()
         setupViewConstraints()
     }
     
@@ -29,18 +31,40 @@ class MealDetail_View: UIView {
         return scrollView
     }()
     
-    var mealName = UILabel.title(withText: "")
-    
     var mealImage: UIImageView = {
         var imageView = UIImageView()
         imageView.contentMode = .scaleAspectFit
+        imageView.clipsToBounds = true
         imageView.translatesAutoresizingMaskIntoConstraints = false
         return imageView
     }()
 
-    var countryLabel = UILabel.standard(withText: "")
-    var tagLabel = UILabel.standard(withText: "")
+    var mealDetailView: UIView = {
+        //creating shadow effect on meal detail view
+        let shadowView = UIView()
+        shadowView.backgroundColor = .systemBackground
+        shadowView.layer.shadowColor = UIColor.lightGray.cgColor
+        shadowView.layer.shadowOffset = CGSize(width: 0, height: 2)
+        shadowView.layer.shadowRadius = 8.0
+        shadowView.layer.shadowOpacity = 1
+
+        let foregroundView = UIView()
+        foregroundView.frame = shadowView.bounds
+        foregroundView.backgroundColor = .systemBackground
+        foregroundView.layer.masksToBounds = true
+
+        shadowView.addSubview(foregroundView)
+        shadowView.translatesAutoresizingMaskIntoConstraints = false
+        return shadowView
+    }()
     
+    var mealName = UILabel.standardizedLabel(fontSize: .titleFont(), withText: "")
+    var countryLabel = UILabel.standardizedLabel(fontSize: .standard(), withText: "")
+    var tagLabel = UILabel.standardizedLabel(fontSize: .standard(), withText: "")
+    
+    
+    var ingredientsLabel = UILabel.standardizedLabel(fontSize: .subtitleFont(), withText: "Ingredients")
+
     var ingredientsText: UITextView = {
         var textView = UITextView()
         textView.sizeToFit()
@@ -51,6 +75,8 @@ class MealDetail_View: UIView {
         textView.translatesAutoresizingMaskIntoConstraints = false
         return textView
     }()
+    
+    private var instructionsLabel = UILabel.standardizedLabel(fontSize: .subtitleFont(), withText: "Instructions")
     
     var instructionsText: UITextView = {
         var textView = UITextView()
@@ -63,91 +89,90 @@ class MealDetail_View: UIView {
         return textView
     }()
 
+    var backgroundView: UIView = {
+        var view = UIView()
+        view.backgroundColor = .systemBackground
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
 }
 
 
 extension MealDetail_View {
-    func setupViewConstraints(){
-        tagLabel.textAlignment = .right
-        tagLabel.numberOfLines = 0 //wrapping lines if needed
-
-        
+    private func setupScrollView(){
         self.addSubview(scrollView)
         scrollView.topAnchor.constraint(equalTo: self.safeAreaLayoutGuide.topAnchor).isActive = true
         scrollView.bottomAnchor.constraint(equalTo: self.bottomAnchor).isActive = true
         scrollView.leftAnchor.constraint(equalTo: self.leftAnchor).isActive = true
         scrollView.rightAnchor.constraint(equalTo: self.rightAnchor).isActive = true
         
+    }
+    
+    private func setupMealDetailView(){
+        tagLabel.numberOfLines = 1 //wrapping lines if needed
+        countryLabel.numberOfLines = 0
+        mealName.numberOfLines = 2
+        mealName.minimumScaleFactor = 0.3
         
-        tagLabel.textAlignment = .right
+        scrollView.addSubview(mealDetailView)
+        mealDetailView.centerXAnchor.constraint(equalTo: self.centerXAnchor).isActive = true
+        mealDetailView.widthAnchor.constraint(equalTo: self.widthAnchor).isActive = true
+        mealDetailView.topAnchor.constraint(equalTo: mealImage.bottomAnchor).isActive = true
+        mealDetailView.heightAnchor.constraint(equalToConstant: mealDetailViewHeight).isActive = true
+
+        mealDetailView.addSubview(mealName)
+        mealName.centerXAnchor.constraint(equalTo: mealDetailView.centerXAnchor).isActive = true
+        mealName.widthAnchor.constraint(equalTo: mealDetailView.widthAnchor, constant: -1*uiComponentPadding).isActive = true
+        mealName.topAnchor.constraint(equalTo: mealDetailView.topAnchor, constant: uiComponentPadding).isActive = true
+        mealName.heightAnchor.constraint(equalTo: mealDetailView.heightAnchor, multiplier: 0.38).isActive = true
         
-        scrollView.addSubview(mealName)
-        mealName.centerXAnchor.constraint(equalTo: self.centerXAnchor).isActive = true
-        mealName.widthAnchor.constraint(equalTo: self.widthAnchor, constant: -1*uiComponentPadding).isActive = true
-        mealName.topAnchor.constraint(equalTo: self.scrollView.topAnchor, constant: uiComponentPadding).isActive = true
+        mealDetailView.addSubview(countryLabel)
+        countryLabel.leftAnchor.constraint(equalTo: mealDetailView.leftAnchor, constant: uiComponentPadding).isActive = true
+        countryLabel.widthAnchor.constraint(equalTo: mealDetailView.widthAnchor, constant: -1*uiComponentPadding).isActive = true
+        countryLabel.topAnchor.constraint(equalTo: mealName.bottomAnchor, constant: uiComponentPadding).isActive = true
+
         
+        mealDetailView.addSubview(tagLabel)
+        tagLabel.leftAnchor.constraint(equalTo: mealDetailView.leftAnchor, constant: uiComponentPadding).isActive = true
+        tagLabel.widthAnchor.constraint(equalTo: mealDetailView.widthAnchor, constant: -1*uiComponentPadding).isActive = true
+        tagLabel.topAnchor.constraint(equalTo: countryLabel.bottomAnchor, constant: uiComponentPadding).isActive = true
+        
+    }
+    
+    private func setupViewConstraints(){
         scrollView.addSubview(mealImage)
-        mealImage.leftAnchor.constraint(equalTo: self.leftAnchor).isActive = true
-        mealImage.rightAnchor.constraint(equalTo: self.rightAnchor).isActive = true
-        mealImage.topAnchor.constraint(equalTo: self.mealName.bottomAnchor, constant: uiComponentPadding).isActive = true
+        mealImage.centerXAnchor.constraint(equalTo: self.centerXAnchor).isActive = true
+        mealImage.topAnchor.constraint(equalTo: self.scrollView.topAnchor).isActive = true
         mealImage.heightAnchor.constraint(equalToConstant: UIScreen.main.bounds.width).isActive = true
         
-        scrollView.addSubview(countryLabel)
-        countryLabel.leftAnchor.constraint(equalTo: self.leftAnchor, constant: uiComponentPadding).isActive = true
-        countryLabel.widthAnchor.constraint(equalTo: self.widthAnchor, multiplier: 0.5).isActive = true
-        countryLabel.topAnchor.constraint(equalTo: self.mealImage.bottomAnchor, constant: uiComponentPadding).isActive = true
+        //creating meal detail with title, country and tags
+        setupMealDetailView()
         
-        scrollView.addSubview(tagLabel)
-        tagLabel.rightAnchor.constraint(equalTo: self.rightAnchor, constant: -1*uiComponentPadding).isActive = true
-        tagLabel.widthAnchor.constraint(equalTo: self.widthAnchor, multiplier: 0.5).isActive = true
-        tagLabel.topAnchor.constraint(equalTo: self.mealImage.bottomAnchor, constant: uiComponentPadding).isActive = true
+        scrollView.addSubview(ingredientsLabel)
+        ingredientsLabel.centerXAnchor.constraint(equalTo: self.centerXAnchor).isActive = true
+        ingredientsLabel.widthAnchor.constraint(equalTo: self.widthAnchor, constant: -1*uiComponentPadding).isActive = true
+        ingredientsLabel.topAnchor.constraint(equalTo: self.mealDetailView.bottomAnchor, constant: uiComponentPadding*2).isActive = true
         
-//        contentView.addSubview(ingredientsText)
-//        ingredientsText.centerXAnchor.constraint(equalTo: contentView.centerXAnchor).isActive = true
-//        ingredientsText.widthAnchor.constraint(equalTo: contentView.widthAnchor).isActive = true
-//        ingredientsText.topAnchor.constraint(equalTo: countryLabel.bottomAnchor, constant: uiComponentPadding).isActive = true
+        scrollView.addSubview(ingredientsText)
+        ingredientsText.centerXAnchor.constraint(equalTo: self.centerXAnchor).isActive = true
+        ingredientsText.widthAnchor.constraint(equalTo: self.widthAnchor, constant: -2*uiComponentPadding).isActive = true
+        ingredientsText.topAnchor.constraint(equalTo: ingredientsLabel.bottomAnchor, constant: uiComponentPadding).isActive = true
 
+        scrollView.addSubview(instructionsLabel)
+        instructionsLabel.centerXAnchor.constraint(equalTo: self.centerXAnchor).isActive = true
+        instructionsLabel.widthAnchor.constraint(equalTo: self.widthAnchor, constant: -1*uiComponentPadding).isActive = true
+        instructionsLabel.topAnchor.constraint(equalTo: self.ingredientsText.bottomAnchor, constant: uiComponentPadding*2).isActive = true
         
         scrollView.addSubview(instructionsText)
         instructionsText.centerXAnchor.constraint(equalTo: self.centerXAnchor).isActive = true
-        instructionsText.widthAnchor.constraint(equalTo: self.widthAnchor, constant: -1*uiComponentPadding).isActive = true
-        instructionsText.topAnchor.constraint(equalTo: tagLabel.bottomAnchor, constant: uiComponentPadding).isActive = true
+        instructionsText.widthAnchor.constraint(equalTo: self.widthAnchor, constant: -2*uiComponentPadding).isActive = true
+        instructionsText.topAnchor.constraint(equalTo: instructionsLabel.bottomAnchor, constant: uiComponentPadding).isActive = true
 
-        
-//        self.scrollView.addSubview(mealName)
-//        mealName.leftAnchor.constraint(equalTo: self.leftAnchor, constant: uiComponentPadding).isActive = true
-//        mealName.rightAnchor.constraint(equalTo: self.rightAnchor, constant: -1*uiComponentPadding).isActive = true
-//        mealName.topAnchor.constraint(equalTo: self.scrollView.topAnchor, constant: uiComponentPadding).isActive = true
-//        mealName.heightAnchor.constraint(equalToConstant: 55).isActive = true
-//
-//        self.scrollView.addSubview(mealImage)
-//        mealImage.leftAnchor.constraint(equalTo: self.leftAnchor).isActive = true
-//        mealImage.rightAnchor.constraint(equalTo: self.rightAnchor).isActive = true
-//        mealImage.topAnchor.constraint(equalTo: self.mealName.bottomAnchor, constant: uiComponentPadding).isActive = true
-//        mealImage.heightAnchor.constraint(equalToConstant: UIScreen.main.bounds.width).isActive = true
-//
-//        self.scrollView.addSubview(countryLabel)
-//        countryLabel.leftAnchor.constraint(equalTo: self.leftAnchor, constant: uiComponentPadding).isActive = true
-//        countryLabel.widthAnchor.constraint(equalTo: self.widthAnchor, multiplier: 0.5).isActive = true
-//        countryLabel.topAnchor.constraint(equalTo: self.mealImage.bottomAnchor, constant: uiComponentPadding).isActive = true
-//        countryLabel.heightAnchor.constraint(equalToConstant: 18).isActive = true
-//
-//        self.scrollView.addSubview(tagLabel)
-//        tagLabel.rightAnchor.constraint(equalTo: self.rightAnchor, constant: -1*uiComponentPadding).isActive = true
-//        tagLabel.widthAnchor.constraint(equalTo: self.widthAnchor, multiplier: 0.5).isActive = true
-//        tagLabel.topAnchor.constraint(equalTo: self.mealImage.bottomAnchor, constant: uiComponentPadding).isActive = true
-//        tagLabel.heightAnchor.constraint(equalToConstant: 18).isActive = true
-//
-////        self.scrollView.addSubview(ingredientsText)
-////        ingredientsText.leftAnchor.constraint(equalTo: self.leftAnchor, constant: uiComponentPadding).isActive = true
-////        ingredientsText.rightAnchor.constraint(equalTo: self.rightAnchor, constant: -1*uiComponentPadding).isActive = true
-////        ingredientsText.topAnchor.constraint(equalTo: countryLabel.bottomAnchor, constant: uiComponentPadding).isActive = true
-////        ingredientsText.heightAnchor.constraint(equalTo: self.heightAnchor, multiplier: 0.3).isActive = true
-//
-//        self.scrollView.addSubview(instructionsText)
-//        instructionsText.leftAnchor.constraint(equalTo: self.leftAnchor, constant: uiComponentPadding).isActive = true
-//        instructionsText.rightAnchor.constraint(equalTo: self.rightAnchor, constant: -1*uiComponentPadding).isActive = true
-//        instructionsText.topAnchor.constraint(equalTo: tagLabel.bottomAnchor, constant: uiComponentPadding).isActive = true
-//        instructionsText.heightAnchor.constraint(equalTo: self.heightAnchor, multiplier: 0.3).isActive = true
+        self.addSubview(backgroundView)
+        self.sendSubviewToBack(backgroundView)
+        backgroundView.leftAnchor.constraint(equalTo: self.leftAnchor).isActive = true
+        backgroundView.rightAnchor.constraint(equalTo: self.rightAnchor).isActive = true
+        backgroundView.bottomAnchor.constraint(equalTo: self.mealImage.topAnchor).isActive = true
+        backgroundView.topAnchor.constraint(equalTo: self.topAnchor).isActive = true
     }
 }

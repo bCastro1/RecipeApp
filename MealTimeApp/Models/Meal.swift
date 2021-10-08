@@ -22,6 +22,7 @@ struct MealContainer: Decodable {
 
 struct Meal: Decodable, Comparable {
     
+    //MARK: Meal inits
     var id: String
     var name: String
     var drinkAlternate: String?
@@ -199,8 +200,76 @@ struct Meal: Decodable, Comparable {
         creativeCommonsConfirmed = try values.decode(String?.self, forKey: .creativeCommonsConfirmed) ?? nil
         dateModified = try values.decode(String?.self, forKey: .dateModified) ?? nil
         
+        formatIngredientsToDictionary()
+    }
+  
+    var ingredientsDictionary: [String:String] = [:]
+    
+    //MARK: Formatting ingredients
+    private mutating func formatIngredientsToDictionary(){
+        if let ing1 = ingredient1, let meas1 = measurement1 {
+            ingredientsDictionary[meas1] = ing1
+        }
+        if let ing2 = ingredient2, let meas2 = measurement2 {
+            ingredientsDictionary[meas2] = ing2
+        }
+        if let ing3 = ingredient3, let meas3 = measurement3 {
+            ingredientsDictionary[meas3] = ing3
+        }
+        if let ing4 = ingredient4, let meas4 = measurement4 {
+            ingredientsDictionary[meas4] = ing4
+        }
+        if let ing5 = ingredient5, let meas5 = measurement5 {
+            ingredientsDictionary[meas5] = ing5
+        }
+        if let ing6 = ingredient6, let meas6 = measurement6 {
+            ingredientsDictionary[meas6] = ing6
+        }
+        if let ing7 = ingredient7, let meas7 = measurement7 {
+            ingredientsDictionary[meas7] = ing7
+        }
+        if let ing8 = ingredient8, let meas8 = measurement8 {
+            ingredientsDictionary[meas8] = ing8
+        }
+        if let ing9 = ingredient9, let meas9 = measurement9 {
+            ingredientsDictionary[meas9] = ing9
+        }
+        if let ing10 = ingredient10, let meas10 = measurement10 {
+            ingredientsDictionary[meas10] = ing10
+        }
+        if let ing11 = ingredient11, let meas11 = measurement11 {
+            ingredientsDictionary[meas11] = ing11
+        }
+        if let ing12 = ingredient12, let meas12 = measurement12 {
+            ingredientsDictionary[meas12] = ing12
+        }
+        if let ing13 = ingredient13, let meas13 = measurement13 {
+            ingredientsDictionary[meas13] = ing13
+        }
+        if let ing14 = ingredient14, let meas14 = measurement14 {
+            ingredientsDictionary[meas14] = ing14
+        }
+        if let ing15 = ingredient15, let meas15 = measurement15 {
+            ingredientsDictionary[meas15] = ing15
+        }
+        if let ing16 = ingredient16, let meas16 = measurement16 {
+            ingredientsDictionary[meas16] = ing16
+        }
+        if let ing17 = ingredient17, let meas17 = measurement17 {
+            ingredientsDictionary[meas17] = ing17
+        }
+        if let ing18 = ingredient18, let meas18 = measurement18 {
+            ingredientsDictionary[meas18] = ing18
+        }
+        if let ing19 = ingredient19, let meas19 = measurement19 {
+            ingredientsDictionary[meas19] = ing19
+        }
+        if let ing20 = ingredient20, let meas20 = measurement20 {
+            ingredientsDictionary[meas20] = ing20
+        }
     }
     
+    //MARK: comparable stubs
     static func < (lhs: Meal, rhs: Meal) -> Bool {
         return lhs.name < rhs.name
     }

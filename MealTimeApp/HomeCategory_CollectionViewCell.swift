@@ -11,6 +11,7 @@ class HomeCategory_CollectionViewCell: UICollectionViewCell {
     //MARK: cell init
     override init(frame: CGRect) {
         super.init(frame: frame)
+        self.backgroundColor = .systemBackground
         setupCell()
     }
     
@@ -24,27 +25,27 @@ class HomeCategory_CollectionViewCell: UICollectionViewCell {
     //MARK: UI component inits
     let categoryImage: UIImageView = {
         var imageView = UIImageView()
-        imageView.contentMode = .scaleAspectFill
+        imageView.contentMode = .scaleAspectFit
         imageView.translatesAutoresizingMaskIntoConstraints = false
         return imageView
     }()
     
-    var categoryTitle: UILabel = {
-        var label = UILabel.standard(withText: "")
-        label.font = .subtitleFont()
-        label.minimumScaleFactor = 0.6
-        label.textAlignment = .center
-        return label
+    private var titleHighlightView: UIView = {
+        var view = UIView()
+        view.backgroundColor = .black
+        view.layer.masksToBounds = true
+        view.layer.opacity = 0.6
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
     }()
+    var categoryTitle = UILabel.standardizedLabel(fontSize: .subtitleFont(), withText: "")
     
     
     
     //MARK: constraint setup
     func setupCell(){
-        self.layer.masksToBounds = true
-        self.layer.cornerRadius = 5
-        self.layer.borderColor = UIColor.dynamicText().cgColor
-        self.layer.borderWidth = 1
+        categoryTitle.textAlignment = .center
+        categoryTitle.textColor = .white
         
         self.addSubview(categoryImage)
         categoryImage.leftAnchor.constraint(equalTo: self.leftAnchor, constant: cellComponentPadding).isActive = true
@@ -53,9 +54,18 @@ class HomeCategory_CollectionViewCell: UICollectionViewCell {
         categoryImage.heightAnchor.constraint(equalTo: self.widthAnchor).isActive = true
         
         self.addSubview(categoryTitle)
-        categoryTitle.leftAnchor.constraint(equalTo: self.leftAnchor, constant: cellComponentPadding).isActive = true
-        categoryTitle.rightAnchor.constraint(equalTo: self.rightAnchor, constant: -1*cellComponentPadding).isActive = true
-        categoryTitle.topAnchor.constraint(equalTo: self.categoryImage.bottomAnchor, constant: cellComponentPadding).isActive = true
-        categoryTitle.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -1*cellComponentPadding).isActive = true
+        categoryTitle.centerXAnchor.constraint(equalTo: self.centerXAnchor).isActive = true
+        categoryTitle.widthAnchor.constraint(equalTo: self.widthAnchor, constant: -1*cellComponentPadding).isActive = true
+        categoryTitle.bottomAnchor.constraint(equalTo: categoryImage.bottomAnchor, constant: -1*cellComponentPadding).isActive = true
+                
+        
+        self.addSubview(titleHighlightView)
+        self.titleHighlightView.topAnchor.constraint(equalTo: categoryTitle.topAnchor).isActive = true
+        self.titleHighlightView.leftAnchor.constraint(equalTo: self.leftAnchor).isActive = true
+        self.titleHighlightView.rightAnchor.constraint(equalTo: self.rightAnchor).isActive = true
+        self.titleHighlightView.bottomAnchor    .constraint(equalTo: self.bottomAnchor).isActive = true
+        
+        self.sendSubviewToBack(titleHighlightView)
+        self.sendSubviewToBack(categoryImage)
     }
 }

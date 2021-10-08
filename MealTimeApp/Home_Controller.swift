@@ -13,17 +13,17 @@ final class Home_Controller: UIViewController {
     private var categories: [Category] = []
     var _view = Home_View()
     let categoryCellID = "CategoryCollectionViewCell"
+    //let categoryHeaderID = "CategoryHeaderCollectionViewCell"
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        
         _view = Home_View(frame: self.view.frame)
         self.view = _view
         
         _view.collectionView.dataSource = self
         _view.collectionView.delegate = self
         _view.collectionView.register(HomeCategory_CollectionViewCell.self, forCellWithReuseIdentifier: categoryCellID)
+        //_view.collectionView.register(HomeHeader_CollectionViewCell.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: categoryHeaderID)
         
         Task {
             do {
@@ -31,10 +31,17 @@ final class Home_Controller: UIViewController {
                 guard let categories = categoryLibrary?.categories else {return}
                 self.categories = categories.sorted()
                 self._view.collectionView.reloadData()
+                DispatchQueue.main.async {
+                    self._view.categoryCountLabel.text = "\(categories.count) Results"
+                }
             } catch {
                 print("error: \(error)")
             }
         }
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        self.navigationController?.setNavigationBarHidden(true, animated: true)
     }
     
     enum ApiError : Error {
@@ -68,6 +75,7 @@ extension Home_Controller : UICollectionViewDataSource, UICollectionViewDelegate
         
         return cell
     }
+
     
     func numberOfSections(in collectionView: UICollectionView) -> Int {
         return 1
@@ -77,6 +85,7 @@ extension Home_Controller : UICollectionViewDataSource, UICollectionViewDelegate
         print("\(categories[indexPath.row].name) selected")
         let selectedCategoryVC = SelectedCategory_Controller()
         selectedCategoryVC.selectedCategory = categories[indexPath.row]
+        selectedCategoryVC.navigationItem.title = "\(categories[indexPath.row].name) Recipes"
         self.navigationController?.pushViewController(selectedCategoryVC, animated: true)
     }
 }
