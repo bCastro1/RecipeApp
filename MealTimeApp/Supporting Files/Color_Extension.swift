@@ -20,7 +20,7 @@ extension UIColor {
     }
     
     @available(iOS 13.0, *)
-    //graphite color when in dark mode, pale white in light mode
+    //graphite color when in dark mode, eggshell white in light mode
     private static let dynamicBackgroundColor = UIColor { (traitCollection: UITraitCollection) -> UIColor in
         switch traitCollection.userInterfaceStyle {
         case .unspecified, .light: return UIColor(red: 220/255, green: 220/255, blue: 220/255, alpha: 1.0)

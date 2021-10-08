@@ -10,6 +10,7 @@ import Foundation
 
 //MARK: Category Library
 struct CategoryLibrary: Decodable {
+    
     private enum CodingKeys: String, CodingKey {case category = "categories"}
     
     var categories: [Category]
@@ -25,8 +26,6 @@ struct CategoryLibrary: Decodable {
 //MARK: Category info
 
 struct Category: Decodable, Comparable {
-
-    
 
     var id: String //Integer in string form
     var name: String //readable name of category
@@ -68,3 +67,15 @@ struct Category: Decodable, Comparable {
     }
 }
 
+
+
+/*
+ Category JSON Format
+ 
+ -categories
+    -0
+        -idCategory
+        -strCategory
+        -strCategoryThumb
+        -strCategoryDescription
+ */

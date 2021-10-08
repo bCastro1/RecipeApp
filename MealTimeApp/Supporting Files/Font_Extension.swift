@@ -8,6 +8,7 @@
 import UIKit
 
 extension UIFont{
+    //extensions for variable text sizes used throughout the app
     static func standard() -> UIFont{
         return UIFont.systemFont(ofSize: 16)
     }

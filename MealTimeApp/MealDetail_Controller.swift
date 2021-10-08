@@ -17,11 +17,16 @@ class MealDetail_Controller: UIViewController, UIScrollViewDelegate {
         didSet {
             Task {
                 do {
+                    //fetching meal with ID
                     guard let mealID = selectedMealID else {return}
+                    //Making network call with mealID
                     try mealContainer = await fetchMeal(withID: mealID)
+                    
+                    //once network call comes back, mealContainer class is populated
                     guard let meal = mealContainer?.meal else {return}
                     self.meal = meal.first
                     DispatchQueue.main.async {
+                        //setting UI details. updating main thread once data fetched
                         self.setMealDetails()
                     }
                 } catch {
@@ -38,10 +43,11 @@ class MealDetail_Controller: UIViewController, UIScrollViewDelegate {
         _view = MealDetail_View(frame: self.view.frame)
         _view.scrollView.delegate = self
         self.view = _view
+        
     }
     
     override func viewDidAppear(_ animated: Bool) {
-        //found an extension to help get the size of the scroll views subviews.
+        //extension to help get the size of the scroll views subviews.
         _view.scrollView.resizeScrollViewToFitContentSize()
     }
     
@@ -76,21 +82,49 @@ class MealDetail_Controller: UIViewController, UIScrollViewDelegate {
         }
         
         var ingredientsText = ""
-        
         if let ingredientsDict = meal?.ingredientsDictionary {
             for (measurement,ingredient) in ingredientsDict {
                 guard measurement != "", ingredient != "" else {continue}
                 ingredientsText.append("\(measurement) of \(ingredient)\n")
             }
         }
+        
         _view.ingredientsText.text = ingredientsText
         
         _view.instructionsText.text = meal?.instructions.unwrapSafely()
-            
+        
+        if let recipeLinkUrl = meal?.recipeSource, recipeLinkUrl != "" {
+            self._view.recipeLinkButton.addTarget(self, action: #selector(recipeLinkTapped(_:)), for: .touchUpInside)
+            _view.setLinkLabelConstraints()
+            _view.setRecipeLinkButtonConstraints()
+        }
+        
+        if let youtubeLinkUrl = meal?.youtube, youtubeLinkUrl != "" {
+            self._view.youtubeButton.addTarget(self, action: #selector(youtubeLinkTapped(_:)), for: .touchUpInside)
+            _view.setLinkLabelConstraints()
+            _view.setYoutubeRecipeVideoConstraints()
+        }
     }
+    
+    //MARK: link actions
+    @objc func recipeLinkTapped(_ button: UIButton){
+        if let recipeLinkUrl = meal?.recipeSource, let recipeUrl = URL(string: recipeLinkUrl) {
+            UIApplication.shared.open(recipeUrl, options: [:], completionHandler: nil)
+        }
+    }
+    
+    @objc func youtubeLinkTapped(_ button: UIButton){
+        if let youtubeLinkUrl = meal?.youtube, let videoUrl = URL(string: youtubeLinkUrl) {
+            UIApplication.shared.open(videoUrl, options: [:], completionHandler: nil)
+        }
+    }
+    
+    
+    //MARK: Scroll view stub
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         //disabling horizontal scrolling
         scrollView.contentOffset.x = 0
     }
+    
 }

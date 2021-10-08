@@ -14,8 +14,14 @@ class SelectedCategory_Controller: UIViewController {
     private var categoryMeals: [CategorizedMeal] = []
     private var featuredMeal : CategorizedMeal?
     
+    private var _view = SelectedCategory_View()
+    private var categoryCellID = "categorizedMealCellIdentifier"
+    private var headerCellID = "categorizedMealHeaderCellIdentifier"
+    
+    
     var selectedCategory: Category? = nil {
         didSet {
+        //MARK: network call
             Task {
                 do {
                     guard let categoryName = selectedCategory?.name else {return}
@@ -30,23 +36,21 @@ class SelectedCategory_Controller: UIViewController {
             }
         }
     }
-    
-    var _view = SelectedCategory_View()
-    var categoryCellID = "categorizedMealCellIdentifier"
-    var headerCellID = "categorizedMealHeaderCellIdentifier"
+
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        _view = SelectedCategory_View(frame: self.view.frame)
+        
+        self._view = SelectedCategory_View(frame: self.view.frame)
         self.view = _view
         self._view.collectionView.delegate = self
         self._view.collectionView.dataSource = self
         self._view.collectionView.register(SelectedCategory_CollectionViewCell.self, forCellWithReuseIdentifier: categoryCellID)
-
         self._view.collectionView.register(FeaturedHeader_CollectionViewCell.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: headerCellID)
     }
     
     override func viewWillAppear(_ animated: Bool) {
+        //editing navigation bar
         self.navigationController?.setStatusBar(backgroundColor: .systemBackground)
         self.navigationController?.navigationBar.backgroundColor = .systemBackground
         self.navigationController?.setNavigationBarHidden(false, animated: false)
@@ -60,7 +64,6 @@ class SelectedCategory_Controller: UIViewController {
     func fetchMeals(withCategoryID: String) async throws -> CategorizedMealLibrary {
         guard let categoriesURL = URL(string: "https://www.themealdb.com/api/json/v1/1/filter.php?c=\(withCategoryID)")
         else {throw ApiError.invalidUrl}
-
         let (data, _) = try await URLSession.shared.data(from: categoriesURL)
         return try JSONDecoder().decode(CategorizedMealLibrary.self, from: data)
     }
@@ -93,17 +96,20 @@ extension SelectedCategory_Controller : UICollectionViewDataSource, UICollection
         return 1
     }
     
+    //pushing next vc
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let mealDetailVC = MealDetail_Controller()
         mealDetailVC.selectedMealID = categoryMeals[indexPath.row].id
         self.navigationController?.pushViewController(mealDetailVC, animated: true)
     }
     
+    //MARK: collection view Header stubs
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         switch kind {
         case UICollectionView.elementKindSectionHeader:
             let headerCell = self._view.collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: headerCellID, for: indexPath) as! FeaturedHeader_CollectionViewCell
 
+            //loading image
             headerCell.featuredMealImage.loadImageWithURL(featuredMeal?.imageURL)
             headerCell.mealTitle.text = featuredMeal?.name
             headerCell.isUserInteractionEnabled = true
@@ -122,7 +128,7 @@ extension SelectedCategory_Controller : UICollectionViewDataSource, UICollection
         return size
     }
     
-    
+    //user interaction tap to next VC
     @objc func featuredMealTileTapped(){
         let mealDetailVC = MealDetail_Controller()
         mealDetailVC.selectedMealID = featuredMeal?.id

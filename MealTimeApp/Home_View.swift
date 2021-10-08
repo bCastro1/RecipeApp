@@ -47,6 +47,7 @@ class Home_View: UIView {
     private var categoriesLabel = UILabel.standardizedLabel(fontSize: .titleFont(), withText: "Categories")
     var categoryCountLabel = UILabel.standardizedLabel(fontSize: .standard(), withText: "")
     
+    
     lazy var collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.sectionInset.top = 16
@@ -67,23 +68,32 @@ extension Home_View {
     
     //MARK: Constraint sets
     func setupViewConstraints(){
+        
+        //Category Detail container view
+        // T cX W H
         self.addSubview(categoryDetailView)
         categoryDetailView.topAnchor.constraint(equalTo: self.topAnchor).isActive = true
         categoryDetailView.centerXAnchor.constraint(equalTo: self.centerXAnchor).isActive = true
         categoryDetailView.widthAnchor.constraint(equalTo: self.widthAnchor).isActive = true
         categoryDetailView.heightAnchor.constraint(equalTo: self.heightAnchor, multiplier: 0.15).isActive = true
         
+        // Category Label
+        // W L T - Height inferred
         categoryDetailView.addSubview(categoriesLabel)
         categoriesLabel.widthAnchor.constraint(equalTo: categoryDetailView.widthAnchor, multiplier: 0.7).isActive = true
         categoriesLabel.leftAnchor.constraint(equalTo: categoryDetailView.leftAnchor, constant: uiComponentPadding).isActive = true
         categoriesLabel.topAnchor.constraint(equalTo: self.safeAreaLayoutGuide.topAnchor, constant: uiComponentPadding).isActive = true
         
+        //Category Amount Label
+        // B R W
         categoryDetailView.addSubview(categoryCountLabel)
         categoryCountLabel.textAlignment = .right
         categoryCountLabel.bottomAnchor.constraint(equalTo: self.categoriesLabel.bottomAnchor).isActive = true
         categoryCountLabel.rightAnchor.constraint(equalTo: self.rightAnchor, constant: -1*uiComponentPadding).isActive = true
         categoryCountLabel.widthAnchor.constraint(equalTo: self.widthAnchor, multiplier: 0.3).isActive = true
         
+        //Collection view
+        // T L R B
         self.addSubview(collectionView)
         collectionView.topAnchor.constraint(equalTo: self.categoryDetailView.bottomAnchor).isActive = true
         collectionView.leftAnchor.constraint(equalTo: self.safeAreaLayoutGuide.leftAnchor, constant: uiComponentPadding).isActive = true

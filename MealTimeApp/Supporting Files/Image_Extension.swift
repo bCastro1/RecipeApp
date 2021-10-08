@@ -12,6 +12,7 @@ import UIKit
 var imageCache = NSCache<NSString, UIImage>()
 
 extension UIImageView {
+    //MARK: checking cache and link validity
     func loadImageWithURL(_ url: String?) {
         let errorImage = UIImage(systemName: "exclamationmark.icloud.fill")
         let placeholderImage = UIImage(systemName: "photo")
@@ -38,6 +39,7 @@ extension UIImageView {
         self.fetchImageFromNetwork(url: url)
     }
     
+    //MARK: network fetch for image
     private func fetchImageFromNetwork(url: URL) {
         let errorImage = UIImage(systemName: "exclamationmark.icloud.fill")
         
@@ -53,6 +55,7 @@ extension UIImageView {
             }
             
             //server response failed.
+            //404, not found, 400 no permission etc.
             let statusCode = (response as? HTTPURLResponse)?.statusCode ?? 0
             if !(200...299).contains(statusCode) {
                 DispatchQueue.main.async {

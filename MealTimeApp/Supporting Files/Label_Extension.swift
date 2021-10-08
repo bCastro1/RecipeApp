@@ -9,7 +9,7 @@ import UIKit
 
 extension UILabel {
     
-    //reusable extension to quickly return labels
+    //reusable extension to quickly return labels with desired attributes
     static func standardizedLabel(fontSize: UIFont, withText: String) -> UILabel {
         let label = UILabel()
         label.font = fontSize

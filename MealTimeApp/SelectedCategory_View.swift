@@ -27,9 +27,10 @@ class SelectedCategory_View: UIView {
         let layout = UICollectionViewFlowLayout()
         layout.sectionInset.top = 16
         layout.minimumLineSpacing = 2
-        //layout.minimumInteritemSpacing = 8
+        
         let cellWidth = (UIScreen.main.bounds.width)-16
         layout.itemSize = CGSize(width: cellWidth, height: 44)
+        
         var collectionView = UICollectionView(frame: self.frame, collectionViewLayout: layout)
         collectionView.backgroundColor = .clear
         collectionView.showsVerticalScrollIndicator = false
@@ -42,7 +43,7 @@ extension SelectedCategory_View {
     //MARK: setting view constraints
     func setupViewConstraints(){
         self.addSubview(collectionView)
-        
+        //T L R B
         collectionView.topAnchor.constraint(equalTo: self.safeAreaLayoutGuide.topAnchor).isActive = true
         collectionView.leftAnchor.constraint(equalTo: self.safeAreaLayoutGuide.leftAnchor).isActive = true
         collectionView.rightAnchor.constraint(equalTo: self.safeAreaLayoutGuide.rightAnchor).isActive = true

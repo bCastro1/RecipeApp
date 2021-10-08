@@ -13,7 +13,6 @@ struct MealContainer: Decodable {
     }
     
     var meal: [Meal]
-    
     init(from decoder: Decoder) throws {
         let values = try decoder.container(keyedBy: CodingKeys.self)
         meal = try values.decode([Meal].self, forKey: .meals)
@@ -82,6 +81,7 @@ struct Meal: Decodable, Comparable {
     
     //MARK: coding keys from api
     private enum CodingKeys: String, CodingKey {
+        //mapping json data format to variables
         case id = "idMeal"
         case name = "strMeal"
         case drinkAlternate = "strDrinkAlternate"
@@ -142,6 +142,7 @@ struct Meal: Decodable, Comparable {
     
     //MARK: init from decoder
     init(from decoder: Decoder) throws {
+        //mapping all downloaded values to variables
         let values = try decoder.container(keyedBy: CodingKeys.self)
         id = try values.decode(String.self, forKey: .id)
         name = try values.decode(String.self, forKey: .name)
@@ -275,3 +276,62 @@ struct Meal: Decodable, Comparable {
     }
 }
 
+
+//MARK: json format
+/*
+ -meals
+    -0
+     -idMeal
+     -strMeal
+     -strDrinkAlternate
+     -strCategory
+     -strArea
+     -strInstructions
+     -strMealThumb
+     -strTags
+     -strYoutube
+     -strIngredient1
+     -strIngredient2
+     -strIngredient3
+     -strIngredient4
+     -strIngredient5
+     -strIngredient6
+     -strIngredient7
+     -strIngredient8
+     -strIngredient9
+     -strIngredient10
+     -strIngredient11
+     -strIngredient12
+     -strIngredient13
+     -strIngredient14
+     -strIngredient15
+     -strIngredient16
+     -strIngredient17
+     -strIngredient18
+     -strIngredient19
+     -strIngredient20
+     -strMeasure1
+     -strMeasure2
+     -strMeasure3
+     -strMeasure4
+     -strMeasure5
+     -strMeasure6
+     -strMeasure7
+     -strMeasure8
+     -strMeasure9
+     -strMeasure10
+     -strMeasure11
+     -strMeasure12
+     -strMeasure13
+     -strMeasure14
+     -strMeasure15
+     -strMeasure16
+     -strMeasure17
+     -strMeasure18
+     -strMeasure19
+     -strMeasure20
+     -strSource
+     -strImageSource
+     -strCreativeCommonsConfirmed
+     -dateModified
+ */

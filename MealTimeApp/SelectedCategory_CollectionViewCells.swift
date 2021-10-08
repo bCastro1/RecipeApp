@@ -20,7 +20,7 @@ class SelectedCategory_CollectionViewCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    fileprivate let cellComponentPadding: CGFloat = 8
+    fileprivate let uiComponentPadding: CGFloat = 8
     
     
     //MARK: UI component inits
@@ -29,8 +29,9 @@ class SelectedCategory_CollectionViewCell: UICollectionViewCell {
     
     func setupCell(){
         self.addSubview(mealTitle)
+        // cX W cY
         mealTitle.centerXAnchor.constraint(equalTo: self.centerXAnchor).isActive = true
-        mealTitle.widthAnchor.constraint(equalTo: self.widthAnchor, constant: -3*cellComponentPadding).isActive = true
+        mealTitle.widthAnchor.constraint(equalTo: self.widthAnchor, constant: -3*uiComponentPadding).isActive = true
         mealTitle.centerYAnchor.constraint(equalTo: self.centerYAnchor).isActive = true
     }
 }
@@ -53,7 +54,7 @@ class FeaturedHeader_CollectionViewCell: UICollectionReusableView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    fileprivate let cellComponentPadding: CGFloat = 8
+    fileprivate let uiComponentPadding: CGFloat = 8
     
     private var featuredTitle = UILabel.standardizedLabel(fontSize: .titleFont(), withText: "Featured Meal")
     
@@ -79,51 +80,65 @@ class FeaturedHeader_CollectionViewCell: UICollectionReusableView {
     private var allRecipesLabel = UILabel.standardizedLabel(fontSize: .subtitleFont(), withText: "All Recipes")
     var resultsLabel = UILabel.standardizedLabel(fontSize: .standard(), withText: "")
     
+    
     //MARK: setup constraints
     func setupCell(){
         mealTitle.textAlignment = .left
         mealTitle.textColor = .white
         resultsLabel.textAlignment = .right
+        resultsLabel.textAlignment = .right
+
         
+        //Featured Label
+        // W cX T H
         self.addSubview(featuredTitle)
-        featuredTitle.widthAnchor.constraint(equalTo: self.widthAnchor, constant: -2*cellComponentPadding).isActive = true
-        featuredTitle.centerXAnchor.constraint(equalTo: self.centerXAnchor, constant: cellComponentPadding).isActive = true
+        featuredTitle.widthAnchor.constraint(equalTo: self.widthAnchor, constant: -2*uiComponentPadding).isActive = true
+        featuredTitle.centerXAnchor.constraint(equalTo: self.centerXAnchor, constant: uiComponentPadding).isActive = true
         featuredTitle.topAnchor.constraint(equalTo: self.topAnchor).isActive = true
         featuredTitle.heightAnchor.constraint(equalToConstant: 50).isActive = true
         
-        
+        //All Recipes Label
+        // B L W H
         self.addSubview(allRecipesLabel)
         allRecipesLabel.bottomAnchor.constraint(equalTo: self.bottomAnchor).isActive = true
-        allRecipesLabel.leftAnchor.constraint(equalTo: self.leftAnchor, constant: 2*cellComponentPadding).isActive = true
+        allRecipesLabel.leftAnchor.constraint(equalTo: self.leftAnchor, constant: 2*uiComponentPadding).isActive = true
         allRecipesLabel.widthAnchor.constraint(equalTo: self.widthAnchor, multiplier: 0.7).isActive = true
         allRecipesLabel.heightAnchor.constraint(equalToConstant: 20).isActive = true
         
+        //Amount of Results Label
+        // B R W cY
         self.addSubview(resultsLabel)
-        resultsLabel.textAlignment = .right
         resultsLabel.bottomAnchor.constraint(equalTo: self.bottomAnchor).isActive = true
-        resultsLabel.rightAnchor.constraint(equalTo: self.rightAnchor, constant: -1*cellComponentPadding).isActive = true
+        resultsLabel.rightAnchor.constraint(equalTo: self.rightAnchor, constant: -1*uiComponentPadding).isActive = true
         resultsLabel.widthAnchor.constraint(equalTo: self.widthAnchor, multiplier: 0.3).isActive = true
         resultsLabel.centerYAnchor.constraint(equalTo: allRecipesLabel.centerYAnchor).isActive = true
     
-        
+        //Featured Meal Image
+        // T W cX B
         self.addSubview(featuredMealImage)
-        featuredMealImage.topAnchor.constraint(equalTo: self.featuredTitle.bottomAnchor, constant: cellComponentPadding).isActive = true
-        featuredMealImage.widthAnchor.constraint(equalTo: self.widthAnchor, constant: -2*cellComponentPadding).isActive = true
+        featuredMealImage.topAnchor.constraint(equalTo: self.featuredTitle.bottomAnchor, constant: uiComponentPadding).isActive = true
+        featuredMealImage.widthAnchor.constraint(equalTo: self.widthAnchor, constant: -2*uiComponentPadding).isActive = true
         featuredMealImage.centerXAnchor.constraint(equalTo: self.centerXAnchor).isActive = true
-        featuredMealImage.bottomAnchor.constraint(equalTo: self.allRecipesLabel.topAnchor, constant: -1*cellComponentPadding).isActive = true
+        featuredMealImage.bottomAnchor.constraint(equalTo: self.allRecipesLabel.topAnchor, constant: -1*uiComponentPadding).isActive = true
         
+        //Meal Title
+        // cX W B
         self.addSubview(mealTitle)
         mealTitle.centerXAnchor.constraint(equalTo: self.centerXAnchor).isActive = true
-        mealTitle.widthAnchor.constraint(equalTo: self.widthAnchor, constant: -3*cellComponentPadding).isActive = true
-        mealTitle.bottomAnchor.constraint(equalTo: featuredMealImage.bottomAnchor, constant: -1*cellComponentPadding).isActive = true
+        mealTitle.widthAnchor.constraint(equalTo: self.widthAnchor, constant: -3*uiComponentPadding).isActive = true
+        mealTitle.bottomAnchor.constraint(equalTo: featuredMealImage.bottomAnchor, constant: -1*uiComponentPadding).isActive = true
         
-        
+        //Meal Title
+        // W cX B H
         self.addSubview(mealTitleContainer)
         mealTitleContainer.widthAnchor.constraint(equalTo: featuredMealImage.widthAnchor).isActive = true
         mealTitleContainer.centerXAnchor.constraint(equalTo: mealTitle.centerXAnchor).isActive = true
         mealTitleContainer.bottomAnchor.constraint(equalTo: mealTitle.bottomAnchor).isActive = true
-        mealTitleContainer.heightAnchor.constraint(equalTo: mealTitle.heightAnchor, constant: cellComponentPadding).isActive = true
+        mealTitleContainer.heightAnchor.constraint(equalTo: mealTitle.heightAnchor, constant: uiComponentPadding).isActive = true
         
+        
+        //correcting the order of the views
+        //in order to have the Meal title properly highlighted
         self.sendSubviewToBack(mealTitleContainer)
         self.sendSubviewToBack(featuredMealImage)
         

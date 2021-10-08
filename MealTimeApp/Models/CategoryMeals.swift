@@ -17,7 +17,6 @@ struct CategorizedMealLibrary: Decodable {
         let values = try decoder.container(keyedBy: CodingKeys.self)
         categoriezedMeals = try values.decode([CategorizedMeal].self, forKey: .meals)
     }
-    
 }
 
 struct CategorizedMeal: Decodable, Comparable {
@@ -51,3 +50,14 @@ struct CategorizedMeal: Decodable, Comparable {
     
     static let `default` = CategorizedMeal(name: "Breakfast", imageURL:     "https://www.themealdb.com/images/media/meals/utxryw1511721587.jpg", id: "52895")
 }
+
+
+/*
+ Category JSON Format
+ 
+ -meals
+    -0
+        -strMeal
+        -strMealThumb
+        -idMeal
+ */

@@ -19,7 +19,7 @@ class HomeCategory_CollectionViewCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    fileprivate let cellComponentPadding: CGFloat = 8
+    fileprivate let uiComponentPadding: CGFloat = 8
     
     
     //MARK: UI component inits
@@ -29,6 +29,7 @@ class HomeCategory_CollectionViewCell: UICollectionViewCell {
         imageView.translatesAutoresizingMaskIntoConstraints = false
         return imageView
     }()
+    
     
     private var titleHighlightView: UIView = {
         var view = UIView()
@@ -47,24 +48,31 @@ class HomeCategory_CollectionViewCell: UICollectionViewCell {
         categoryTitle.textAlignment = .center
         categoryTitle.textColor = .white
         
+        // Category Image
+        //L T R H
         self.addSubview(categoryImage)
-        categoryImage.leftAnchor.constraint(equalTo: self.leftAnchor, constant: cellComponentPadding).isActive = true
-        categoryImage.topAnchor.constraint(equalTo: self.topAnchor, constant: cellComponentPadding).isActive = true
-        categoryImage.rightAnchor.constraint(equalTo: self.rightAnchor, constant: -1*cellComponentPadding).isActive = true
+        categoryImage.leftAnchor.constraint(equalTo: self.leftAnchor, constant: uiComponentPadding).isActive = true
+        categoryImage.topAnchor.constraint(equalTo: self.topAnchor, constant: uiComponentPadding).isActive = true
+        categoryImage.rightAnchor.constraint(equalTo: self.rightAnchor, constant: -1*uiComponentPadding).isActive = true
         categoryImage.heightAnchor.constraint(equalTo: self.widthAnchor).isActive = true
         
+        // Category Title
+        //cX W B
         self.addSubview(categoryTitle)
         categoryTitle.centerXAnchor.constraint(equalTo: self.centerXAnchor).isActive = true
-        categoryTitle.widthAnchor.constraint(equalTo: self.widthAnchor, constant: -1*cellComponentPadding).isActive = true
-        categoryTitle.bottomAnchor.constraint(equalTo: categoryImage.bottomAnchor, constant: -1*cellComponentPadding).isActive = true
-                
-        
+        categoryTitle.widthAnchor.constraint(equalTo: self.widthAnchor, constant: -1*uiComponentPadding).isActive = true
+        categoryTitle.bottomAnchor.constraint(equalTo: categoryImage.bottomAnchor, constant: -1*uiComponentPadding).isActive = true
+             
+        //Title Highlight View
+        //T L R B
         self.addSubview(titleHighlightView)
         self.titleHighlightView.topAnchor.constraint(equalTo: categoryTitle.topAnchor).isActive = true
         self.titleHighlightView.leftAnchor.constraint(equalTo: self.leftAnchor).isActive = true
         self.titleHighlightView.rightAnchor.constraint(equalTo: self.rightAnchor).isActive = true
         self.titleHighlightView.bottomAnchor    .constraint(equalTo: self.bottomAnchor).isActive = true
         
+        //correcting the order of the views
+        //in order to have the category title properly highlighted
         self.sendSubviewToBack(titleHighlightView)
         self.sendSubviewToBack(categoryImage)
     }
